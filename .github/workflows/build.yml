@@ -25,13 +25,11 @@ jobs:
 
       - name: Build EXE
         run: |
-          cd pinterest_saver
-          pyinstaller --onefile --windowed --name PinterestSaver --icon=icon.ico main.py
+          pyinstaller --onefile --windowed --name PinterestSaver main.py
         continue-on-error: true
 
       - name: Build EXE (no icon fallback)
         run: |
-          cd pinterest_saver
           pyinstaller --onefile --windowed --name PinterestSaver main.py
         if: failure()
 
@@ -39,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: PinterestSaver-Windows
-          path: pinterest_saver/dist/PinterestSaver.exe
+          path: dist/PinterestSaver.exe
