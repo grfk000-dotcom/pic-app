@@ -74,6 +74,7 @@ class PinterestDownloader:
 
                 cmd = [
                     _gallery_dl_cmd(),
+                    "--cookies-from-browser", "chrome",
                     "--dest", dest,
                     "--no-mtime",
                     "-v",
