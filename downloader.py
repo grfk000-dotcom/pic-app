@@ -7,8 +7,19 @@ import subprocess
 import threading
 import re
 import os
+import sys
 from pathlib import Path
 from typing import Callable
+
+
+def _gallery_dl_cmd() -> str:
+    """번들된 gallery-dl.exe 또는 PATH의 gallery-dl 반환"""
+    if getattr(sys, "frozen", False):
+        base = Path(sys._MEIPASS)
+        exe = base / "gallery-dl.exe"
+        if exe.exists():
+            return str(exe)
+    return "gallery-dl"
 
 
 def _board_name_from_url(url: str) -> str:
@@ -62,7 +73,7 @@ class PinterestDownloader:
                 self.on_progress(0, 1, board)
 
                 cmd = [
-                    "gallery-dl",
+                    _gallery_dl_cmd(),
                     "--dest", dest,
                     "--no-mtime",
                     "-v",
