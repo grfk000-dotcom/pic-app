@@ -23,15 +23,14 @@ jobs:
         run: |
           pip install gallery-dl pyinstaller
 
+      - name: Copy gallery-dl executable
+        run: |
+          $gdl = (Get-Command gallery-dl).Source
+          Copy-Item $gdl gallery-dl.exe
+
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --name PinterestSaver main.py
-        continue-on-error: true
-
-      - name: Build EXE (no icon fallback)
-        run: |
-          pyinstaller --onefile --windowed --name PinterestSaver main.py
-        if: failure()
+          pyinstaller --onefile --windowed --name PinterestSaver --add-binary "gallery-dl.exe;." main.py
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
